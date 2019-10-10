@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Bootstrap 4 Website Example</title>
+        <title>Acceso a sistema</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/SIGIP/libs/dist/css/bootstrap.min.css">
@@ -14,6 +14,7 @@
                 height: 200px;
                 background: #aaa;
             }
+            .bg-banner{background:#EEE;height:120px;vertical-align:botton;}
         </style>
     </head>
     <body>
@@ -21,10 +22,12 @@
             <span class="fas fa-user-check"></span> nombre de usuario 
             <a class="text-muted"  href="#"><i class="fas fa-sign-out-alt"></i></a>
         </nav>
-        <div class="jumbotron text-center" style="margin-bottom:0">
-            <h1>Sistema de Gestion de Información Pública</h1>
-            <p>Instituto Tecnológico de Venustiano Carranza</p> 
-        </div>
+        <!--div class="text-center bg-banner" -->
+        <nav class="navbar navbar-expand-sm bg-light navbar-dark">
+            <div class="collapse navbar-collapse">
+                <h2>Instituto Tecnológico Superior de Venustiano Carranza</h2>
+            </div>
+        </nav>
 
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <a class="navbar-brand" href="#">S I G I P</a>
@@ -64,9 +67,8 @@
                 </div>
                 <div class="col-sm-8">
                     <h2><span class="fab fa-buromobelexperte" style="font-size:72px;"></span> Áreas</h2>
-                    <h5>Listado de areas</h5>
                     <div class="bg-light text-right">
-                        <a href="#" class="" data-toggle="collapse" data-target="#dvTbAreas">Ver/ocultar áreas</a>
+                        <a href="#" class="" data-toggle="collapse" data-target="#dvTbAreas">Ver/ocultar áreas</a>                        
                     </div>
                     <div id="dvTbAreas" class="collapse">
                         <table id="tbAreas" class="table">
@@ -85,10 +87,10 @@
                         </table>
                     </div>
                     <p>Información de areas</p>
-                    <p id="parrInfoAreas">...</p>
+                    <h5 class="text-right"><a href="#" class="btn btn-light" >Agregar</a></h5>
+                    <hr/>
                     <br>
                     <h2><span class="fas fa-users" style="font-size:72px;"></span> Usuarios</h2>
-                    <h5>Listado de usuarios</h5>
                     <div class="bg-light text-right">
                         <a href="#" class="" data-toggle="collapse" data-target="#dvTbUsuarios">Ver/ocultar usuarios</a>
                     </div>
@@ -109,10 +111,10 @@
                         </table>
                     </div>
                     <p>Información de usuarios</p>
-                    <p id="parrInfoUsers">...</p>
+                    <h5 class="text-right"><a href="#" class="btn btn-light" >Agregar</a></h5>
+                    <hr/>
                     <br>
                     <h2><span class="fas fa-share-alt" style="font-size:72px;"></span> Medios de publicación</h2>
-                    <h5>Listado de medios de publicación</h5>
                     <div class="bg-light text-right">
                         <a href="#" class="" data-toggle="collapse" data-target="#dvTbMedios">Ver/ocultar medios</a>
                     </div>
@@ -133,7 +135,8 @@
                         </table>
                     </div>
                     <p>Información de Medios</p>
-                    <p id="parrInfoMedios">...</p>
+                    <h5 class="text-right"><a href="#" class="btn btn-light" >Agregar</a></h5>
+                    <hr/>
                     <br>
                 </div>
                 <div class="col-sm-2">

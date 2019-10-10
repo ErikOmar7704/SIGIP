@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Bootstrap 4 Website Example</title>
+        <title>Mis Publicaciones</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/SIGIP/libs/dist/css/bootstrap.min.css">
@@ -14,6 +14,7 @@
                 height: 200px;
                 background: #aaa;
             }
+            .bg-banner{background:#EEE;height:120px;vertical-align:botton;}
         </style>
     </head>
     <body>
@@ -21,10 +22,12 @@
             <span class="fas fa-user-check"></span> nombre de usuario 
             <a class="text-muted"  href="#"><i class="fas fa-sign-out-alt"></i></a>
         </nav>
-        <div class="jumbotron text-center" style="margin-bottom:0">
-            <h1>Sistema de Gestion de Información Pública</h1>
-            <p>Instituto Tecnológico de Venustiano Carranza</p> 
-        </div>
+        <!--div class="text-center bg-banner" -->
+        <nav class="navbar navbar-expand-sm bg-light navbar-dark">
+            <div class="collapse navbar-collapse">
+                <h2>Instituto Tecnológico Superior de Venustiano Carranza</h2>
+            </div>
+        </nav>
 
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <a class="navbar-brand" href="#">S I G I P</a>
@@ -63,11 +66,29 @@
                     <hr class="d-sm-none">
                 </div>
                 <div class="col-sm-8">
-                    <div class="container">
-                        <form class="form-vertical" id="idFrmAreas" name="frmAreas" action="" method="POST">
-                            
-                        </form>
+                    <h2><span class="fa fa-sticky-note" style="font-size:72px;"></span> Mis Publicaciones</h2>
+                    <div class="bg-light text-right">
+                        <a href="#" class="" data-toggle="collapse" data-target="#dvTbAreas">Ver/ocultar publicaciones</a>                        
                     </div>
+                    <div id="dvTbAreas" class="collapse show">
+                        <table id="tbAreas" class="table">
+                            <thead>
+                                <tr><th>Col_1</th><th>Col_2</th><th>Col_3</th><th>Col_4</th><th>Col_5</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>dato_1</td>
+                                    <td>dato_2</td>
+                                    <td>dato_3</td>
+                                    <td>dato_4</td>
+                                    <td>dato_5</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>Información de publicaciones</p>
+                    <h5 class="text-right"><a href="#" class="btn btn-light" >Agregar</a></h5>
+                    <hr/>
                 </div>
                 <div class="col-sm-2">
                 </div>
