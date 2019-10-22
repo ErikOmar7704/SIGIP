@@ -19,8 +19,8 @@
     <body>
      
         <div class="jumbotron text-center" style="margin-bottom:0">
-            <h3>Sistema de Gestion de InformaciÃ³n PÃºblica</h3>
-            <p>Instituto TecnolÃ³gico de Venustiano Carranza</p> 
+            <h3>Sistema de Gestion de Información Pública</h3>
+            <p>Instituto Tecnológico de Venustiano Carranza</p> 
         </div>
 
         <div class="container" style="margin-top:30px">
@@ -28,24 +28,12 @@
                 <div class="col-sm-4 ">
                 </div>
                 <div class="col-sm-4">
-                    <h3 class="text-center"><span class="fas fa-sign-in-alt" style="font-size:75px;"></span> </h3>
-                    <h6 class="text-center">Acceso al sistema</h6>
+                    <h3 class="text-center"><a href="<%= request.getContextPath() %>"><span class="fas fa-sign-out-alt" style="font-size:75px;"></span></a> </h3>
+                    <h6 class="text-center">Página de ERROR</h6>
                     <div class="panel">
-                        <form id="frmAcceso" class="form-vertical" action="" method="POST">
-                            <div class="form-group">
-                                <label for="idUser" >usuario:</label>
-                                <input id="idUser" name="usuario" type="text" class="form-control"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="idPass" >contraseÃ±a:</label>
-                                <input id="idPass" name="pass" type="password" class="form-control"/>
-                            </div>
-                            <div class="container text-right">
-                               <input type="submit" id="idEnviar" name="enviar" class="btn btn-light"/>
-                            </div>      
-                        </form>                   
+                                       
                     </div>                  
-                    <p>InformaciÃ³n de areas</p>
+                    <p class="alert-danger text-center"><%=request.getParameter("mensaje")%></p>
                 </div>
                 <div class="col-sm-4">
                 </div>
