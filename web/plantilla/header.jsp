@@ -1,3 +1,13 @@
+<%@page import="mx.com.dats.modelo.pojos.Cuenta"%>
+<%
+    boolean isSession=false;
+    if(session.getAttribute("cuentaActual")!=null){
+        isSession=true;
+        Cuenta cuentaUser=(Cuenta)session.getAttribute("cuentaActual");
+    }
+    if (!isSession)
+        response.sendRedirect(request.getContextPath());
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>

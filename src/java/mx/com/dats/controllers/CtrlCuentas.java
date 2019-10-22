@@ -153,6 +153,7 @@ public class CtrlCuentas extends HttpServlet {
     }
 
     public void cerrarSession(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        req.getSession().removeAttribute("cuentaActual");
         req.getSession().invalidate();
         res.sendRedirect(req.getContextPath());
     }
