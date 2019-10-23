@@ -142,9 +142,10 @@ public class CtrlCuentas extends HttpServlet {
                     res.sendRedirect(req.getContextPath() + "/editpubs/" );
                     break;
                 case 4:
+                    res.sendRedirect(req.getContextPath() + "/validapub/" );
                     break;
                 default:
-
+                    res.sendRedirect(req.getContextPath());
             }
         } else {
             paginaError(req, res, "Credenciales incorrectas, verifique sus datos");

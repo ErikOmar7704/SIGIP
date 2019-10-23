@@ -3,19 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Documentos/NetBeansProjects/SIGIP/web/admsis/index.jsp</file>
-            <file>file:/D:/Documentos/NetBeansProjects/SIGIP/web/validapub/validar.jsp</file>
             <file>file:/D:/Documentos/NetBeansProjects/SIGIP/web/plantilla/header.jsp</file>
-            <file>file:/D:/Documentos/NetBeansProjects/SIGIP/web/admsis/crudmedios.jsp</file>
-            <file>file:/D:/Documentos/NetBeansProjects/SIGIP/web/plantilla/footer.jsp</file>
-            <file>file:/D:/Documentos/NetBeansProjects/SIGIP/web/prueba.jsp</file>
-            <file>file:/D:/Documentos/NetBeansProjects/SIGIP/web/admsis/crudareas.jsp</file>
-            <file>file:/D:/Documentos/NetBeansProjects/SIGIP/web/admsis/crudusuarios.jsp</file>
-            <file>file:/D:/Documentos/NetBeansProjects/SIGIP/web/editpubs/crudpub.jsp</file>
-            <file>file:/D:/Documentos/NetBeansProjects/SIGIP/web/editpubs/index.jsp</file>
-            <file>file:/D:/Documentos/NetBeansProjects/SIGIP/web/plantilla/pnlusuario.jsp</file>
-            <file>file:/D:/Documentos/NetBeansProjects/SIGIP/web/index.jsp</file>
-            <file>file:/D:/Documentos/NetBeansProjects/SIGIP/web/validapub/index.jsp</file>
+            <file>file:/D:/Documentos/NetBeansProjects/SIGIP/src/java/mx/com/dats/controllers/CtrlCuentas.java</file>
         </group>
     </open-files>
 </project-private>
