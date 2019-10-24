@@ -23,7 +23,7 @@ import mx.com.dats.modelo.pojos.Cuenta;
  */
 @WebServlet(value = "/security")
 public class CtrlCuentas extends HttpServlet {
-
+    String urlB="localhost:8090";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -78,6 +78,12 @@ public class CtrlCuentas extends HttpServlet {
             case "cerrar":
                 cerrarSession(request,response);
                 break;
+            case "seleccionar":
+                goToCrudUser(request,response);
+                break;
+            case "inicio":
+                goToAdmin(request,response);
+                break;
             default:
                 response.sendRedirect(request.getContextPath() + "/error.jsp");
         }
@@ -95,6 +101,7 @@ public class CtrlCuentas extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        this.urlB=urlB+request.getContextPath();
         String accion = "";
         if (request.getParameter("accion") != null) {
             accion = request.getParameter("accion").toString();
@@ -118,7 +125,7 @@ public class CtrlCuentas extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void validaUsuario(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    public void validaUsuario(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         CuentasDao daoCuenta = new CuentasDao();
         String usuario = "", pass = "";
         if (req.getParameter("usuario") != null) {
@@ -127,13 +134,13 @@ public class CtrlCuentas extends HttpServlet {
         if (req.getParameter("pass") != null) {
             pass = req.getParameter("pass");
         }
-        System.out.println("usuario: "+usuario +"; pass: "+pass);
         Cuenta cuenta = daoCuenta.getCuenta(usuario, pass);
         if (cuenta != null) {
             req.getSession().setAttribute("cuentaActual", cuenta);
             switch (cuenta.getTipo()) {
                 case 1:
-                    res.sendRedirect(req.getContextPath() + "/admsis/" );
+                    goToAdmin(req, res);
+                    //res.sendRedirect(req.getContextPath() + "/admsis/" );
                     break;
                 case 2:
                     res.sendRedirect(req.getContextPath() + "/validapub/" );
@@ -158,6 +165,37 @@ public class CtrlCuentas extends HttpServlet {
         req.getSession().invalidate();
         res.sendRedirect(req.getContextPath());
     }
+    public void goToAdmin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        
+        CuentasDao daoCuenta= new CuentasDao();
+        List<Cuenta> lstAllUsers;
+        lstAllUsers=daoCuenta.getTodasCuentas();
+        req.setAttribute("lstAllUsers", lstAllUsers);
+        String mensaje=daoCuenta.getMensaje();
+        req.setAttribute("mensaje", mensaje);
+        req.getRequestDispatcher("/admsis/index.jsp").forward(req, res);
+    }
+    
+    public void goToCrudUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        int id=0;
+        if(req.getParameter("id")!=null){
+            try{
+                id=Integer.parseInt(req.getParameter("id"));
+            }catch (Exception e){}
+        }
+        CuentasDao daoCuenta= new CuentasDao();
+        List<Cuenta> lstAllUsers;
+        lstAllUsers=daoCuenta.getTodasCuentas();
+        req.setAttribute("lstAllUsers", lstAllUsers);
+        Cuenta cnta=daoCuenta.getCuenta(id);
+        if(cnta!=null){
+            req.setAttribute("cuentaActual", cnta);
+        }
+        String mensaje=daoCuenta.getMensaje();
+        req.setAttribute("mensaje", mensaje);
+        req.getRequestDispatcher("/admsis/crudusuarios.jsp").forward(req, res);
+    }
+    
     
     public void paginaError(HttpServletRequest req, HttpServletResponse res, String mensaje) throws IOException {
         res.sendRedirect(req.getContextPath() + "/error.jsp?mensaje=" + mensaje);

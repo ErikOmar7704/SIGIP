@@ -34,9 +34,12 @@ public class CuentasDao extends conexion {
                 rs = stmt.executeQuery(sql);
 
                 while (rs.next()) {
-                    
                     Cuenta cntaAux = new Cuenta();
                     cntaAux.setIdcuenta(rs.getInt("idcuenta"));
+                    cntaAux.setCurp(rs.getString("curp"));
+                    cntaAux.setNombre(rs.getString("nombre"));
+                    cntaAux.setValida(rs.getInt("valida"));
+                    cntaAux.setCargo(rs.getInt("cargo"));                    
                     cntaAux.setUsuario(rs.getString("usuario"));
                     cntaAux.setPass(rs.getString("pass"));
                     cntaAux.setTipo(rs.getInt("tipo"));
@@ -64,8 +67,11 @@ public class CuentasDao extends conexion {
                 System.out.println(sql);
                 rs = preStmt.executeQuery();
                 while (rs.next()) {
-
                     cntaAux.setIdcuenta(rs.getInt("idcuenta"));
+                    cntaAux.setCurp(rs.getString("curp"));
+                    cntaAux.setNombre(rs.getString("nombre"));
+                    cntaAux.setValida(rs.getInt("valida"));
+                    cntaAux.setCargo(rs.getInt("cargo"));                    
                     cntaAux.setUsuario(rs.getString("usuario"));
                     cntaAux.setPass(rs.getString("pass"));
                     cntaAux.setTipo(rs.getInt("tipo"));
@@ -82,6 +88,104 @@ public class CuentasDao extends conexion {
             }
         }
         return null;
+    }
+    public Cuenta getCuenta(int idCuenta) {
+        Cuenta cntaAux = new Cuenta();
+        String sql = "SELECT * FROM tbcuentas WHERE idcuenta="+idCuenta+";";
+        if (isCorrecto()) {
+            try {
+                preStmt = conexion.getCon().prepareStatement(sql);
+
+                System.out.println(sql);
+                rs = preStmt.executeQuery();
+                while (rs.next()) {
+                    cntaAux.setIdcuenta(rs.getInt("idcuenta"));
+                    cntaAux.setCurp(rs.getString("curp"));
+                    cntaAux.setNombre(rs.getString("nombre"));
+                    cntaAux.setValida(rs.getInt("valida"));
+                    cntaAux.setCargo(rs.getInt("cargo"));                    
+                    cntaAux.setUsuario(rs.getString("usuario"));
+                    cntaAux.setPass(rs.getString("pass"));
+                    cntaAux.setTipo(rs.getInt("tipo"));
+                }
+                rs.close();
+                preStmt.close();
+                rs= null;
+                preStmt=null;
+                correcto = true;
+                return cntaAux;
+            } catch (SQLException e) {
+                correcto = false;
+                mensaje = "SQLException: " + e.getMessage();
+            }
+        }
+        return null;
+    }
+    public boolean addCuenta(Cuenta cuenta){
+        boolean resp=false;
+        String sql = "INSERT INTO tbcuentas(curp,nombre,valida,cargo,usuario,pass,tipo) VALUES("
+                +"'"+cuenta.getCurp()+"',"
+                +"'"+cuenta.getNombre()+"',"
+                +""+cuenta.getValida()+","
+                +""+cuenta.getCargo()+","
+                +"'"+cuenta.getUsuario()+"',"
+                +"'"+cuenta.getPass()+"',"
+                +""+cuenta.getTipo()+");";
+        if (isCorrecto()) {
+            try {
+                stmt = this.getCon().createStatement();
+                resp=stmt.execute(sql);
+                stmt.close();
+                stmt=null;
+                correcto = true;
+            } catch (SQLException e) {
+                correcto = false;
+                mensaje = "SQLException: " + e.getMessage();
+            }
+        }
+        return resp;
+    }
+    public boolean updCuenta(Cuenta cuenta){
+        boolean resp=false;
+        String sql = "UPDATE tbcuentas SET "
+                +"curp='"+cuenta.getCurp()+"',"
+                +"nombre='"+cuenta.getNombre()+"',"
+                +"valida="+cuenta.getValida()+","
+                +"cargo="+cuenta.getCargo()+","
+                +"usuario='"+cuenta.getUsuario()+"',"
+                +"pass='"+cuenta.getPass()+"',"
+                +"tipo="+cuenta.getTipo()+
+                " WHERE idcuenta="+cuenta.getIdcuenta()+";";
+        if (isCorrecto()) {
+            try {
+                stmt = this.getCon().createStatement();
+                resp=stmt.execute(sql);
+                stmt.close();
+                stmt=null;
+                correcto = true;
+            } catch (SQLException e) {
+                correcto = false;
+                mensaje = "SQLException: " + e.getMessage();
+            }
+        }
+        return resp;
+    }
+    public boolean delCuenta(int idcuenta){
+        boolean resp=false;
+        String sql = "DELETE FROM tbcuentas  WHERE idcuenta="+idcuenta+";";
+        if (isCorrecto()) {
+            try {
+                stmt = this.getCon().createStatement();
+                resp=stmt.execute(sql);
+                stmt.close();
+                stmt=null;
+                correcto = true;
+            } catch (SQLException e) {
+                correcto = false;
+                mensaje = "SQLException: " + e.getMessage();
+            }
+        }
+        return resp;
     }
 
 }

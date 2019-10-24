@@ -12,18 +12,30 @@ package mx.com.dats.modelo.pojos;
 public class Cuenta {
 
     private int idcuenta;
+    private String curp;
+    private String nombre;
+    private int valida;
+    private int cargo;
     private String usuario;
     private String pass;
     private int tipo;
 
-    public Cuenta(String usuario, String pass, int tipo) {
+    public Cuenta(int idcuenta, String curp, String nombre, int valida, int cargo, String usuario, String pass, int tipo) {
+        this.idcuenta = idcuenta;
+        this.curp = curp;
+        this.nombre = nombre;
+        this.valida = valida;
+        this.cargo = cargo;
         this.usuario = usuario;
         this.pass = pass;
         this.tipo = tipo;
     }
 
-    public Cuenta(int idcuenta, String usuario, String pass, int tipo) {
-        this.idcuenta = idcuenta;
+    public Cuenta(String curp, String nombre, int valida, int cargo, String usuario, String pass, int tipo) {
+        this.curp = curp;
+        this.nombre = nombre;
+        this.valida = valida;
+        this.cargo = cargo;
         this.usuario = usuario;
         this.pass = pass;
         this.tipo = tipo;
@@ -32,20 +44,44 @@ public class Cuenta {
     public Cuenta() {
     }
 
-    public int getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
-    }
-
     public int getIdcuenta() {
         return idcuenta;
     }
 
     public void setIdcuenta(int idcuenta) {
         this.idcuenta = idcuenta;
+    }
+
+    public String getCurp() {
+        return curp;
+    }
+
+    public void setCurp(String curp) {
+        this.curp = curp;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getValida() {
+        return valida;
+    }
+
+    public void setValida(int valida) {
+        this.valida = valida;
+    }
+
+    public int getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(int cargo) {
+        this.cargo = cargo;
     }
 
     public String getUsuario() {
@@ -62,6 +98,58 @@ public class Cuenta {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+    
+    public String getNameTipo() {
+        String tipUser;
+        switch (this.tipo) {
+            case 1:
+                tipUser = "Administrador";
+                break;
+            case 2:
+                tipUser = "Validador vinculación";
+                break;
+            case 3:
+                tipUser = "Validador de área";
+                break;
+            case 4:
+                tipUser = "Editor de medios";
+                break;
+            case 5:
+                tipUser = "Autor";
+                break;
+            default:
+                tipUser = "Invitado";
+        }
+        return tipUser;
+    }
+    public String getNameCargo() {
+        String tipUser;
+        switch (this.cargo) {
+            case 1:
+                tipUser = "Director";
+                break;
+            case 2:
+                tipUser = "Jefe de Área";
+                break;
+            case 3:
+                tipUser = "Docente";
+                break;
+            case 4:
+                tipUser = "Administrativo";
+                break;
+            default:
+                tipUser = "Sin Cargo";
+        }
+        return tipUser;
     }
 
     @Override

@@ -1,14 +1,18 @@
 <%@page import="mx.com.dats.modelo.pojos.Cuenta"%>
 <%
+    String urlStr = request.getContextPath();
+    System.out.println("Entre1");
     boolean isSession = false;
-    Cuenta cuentaUser = null;
+    Cuenta cuentaUser = new Cuenta();
     if (session.getAttribute("cuentaActual") != null) {
         isSession = true;
         cuentaUser = (Cuenta) session.getAttribute("cuentaActual");
     }
+    System.out.println("Entre2");
     if (!isSession) {
         response.sendRedirect(request.getContextPath());
     }
+    System.out.println("Entre3");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +36,7 @@
     <body>
         <nav class="bg-light text-right text-muted">
             <span class="fas fa-user-check"></span> <%= cuentaUser.getUsuario()%> 
-            <a class="text-muted"  href="<%=request.getContextPath()%>/security?accion=cerrar"><i class="fas fa-sign-out-alt"></i></a>
+            <a class="text-muted"  href="<%=request.getContextPath()%>/security?accion=cerrar"><span class="fas fa-sign-out-alt"></span> Salir</a>
         </nav>
         <!--div class="text-center bg-banner" -->
         <nav class="navbar navbar-expand-sm bg-light navbar-dark">
@@ -49,23 +53,7 @@
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <%
-                            String urlStr = request.getContextPath();
-                            switch (cuentaUser.getTipo()) {
-                                case 1:
-                                    urlStr = urlStr + "/admsis/";
-                                    break;//Administrador de sistema
-                                case 2:
-                                    urlStr = urlStr + "/validapub/";
-                                    break;//Validadores de publicaciones y editores de Medios
-                                case 3:
-                                    urlStr = urlStr + "/editpubs/";
-                                    break;//Autores de publicaciones
-                                default:
-                                    urlStr = urlStr + "";
-                            }
-                        %>
-                        <a class="nav-link" href="<%=urlStr%>"><span class="fa fa-home"></span> Inicio</a>
+                        <a class="nav-link" href="<%=urlStr+"/security?accion=inicio"%>"><span class="fa fa-home"></span> Inicio</a>
                     </li>
 
                 </ul>
@@ -74,27 +62,11 @@
         <div class="container" style="margin-top:30px">
             <div class="row">
                 <div class="col-sm-2">
-                    <%
-                        String tipUser;
-                        switch (cuentaUser.getTipo()) {
-                            case 1:
-                                tipUser = "Administrador";
-                                break;//Administrador de sistema
-                            case 2:
-                                tipUser = "Validador";
-                                break;//Validadores de publicaciones y editores de Medios
-                            case 3:
-                                tipUser = "Autor";
-                                break;//Autores de publicaciones
-                            default:
-                                tipUser = "Editor";
-                        }
-                    %>
-                    <h4 id="lbTipoUser"><%=tipUser%></h4>
-                    <h6 id="lbNombreUser" class="small">Nombre de usuario</h6>
+                    <h4 id="lbTipoUser"><%=cuentaUser.getNameTipo()%></h4>
+                    <h6 id="lbNombreUser" class="small"><%=cuentaUser.getNombre()%></h6>
                     <div class="fakeimg">Logo/imagen</div>
                     <p></p>
-                    <h3>Datos del usuario</h3>
+                    <h3><%=cuentaUser.getNameCargo()%></h3>
                     <p></p>
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item">

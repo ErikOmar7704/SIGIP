@@ -1,4 +1,12 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@include file="\plantilla\header.jsp" %>
+<%
+    List<Cuenta> lstAllUsers= new ArrayList<Cuenta>();
+    if(request.getAttribute("lstAllUsers")!=null){
+        lstAllUsers=(List<Cuenta>)request.getAttribute("lstAllUsers");
+    }
+%>
 <div class="col-sm-8">
     <h2><span class="fab fa-buromobelexperte" style="font-size:72px;"></span> Áreas</h2>
     <div class="bg-light text-right">
@@ -18,6 +26,7 @@
                     <td>dato_5</td>
                 </tr>
             </tbody>
+            
         </table>
     </div>
     <p>Información de areas</p>
@@ -31,16 +40,21 @@
     <div id="dvTbUsuarios" class="collapse">
         <table id="tbUsuarios" class="table">
             <thead>
-                <tr><th>Col_1</th><th>Col_2</th><th>Col_3</th><th>Col_4</th><th>Col_5</th></tr>
+                <tr><th>Num.</th><th>Nombre</th><th>Usuario</th><th>Contraseña</th><th>Acciones</th></tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>dato_1</td>
-                    <td>dato_2</td>
-                    <td>dato_3</td>
-                    <td>dato_4</td>
-                    <td>dato_5</td>
-                </tr>
+                    <%
+                        if(lstAllUsers!=null)
+                            for(Cuenta c : lstAllUsers){
+                                out.println("<tr>");
+                                out.println("<td>"+c.getIdcuenta()+"</td>");
+                                out.println("<td>"+c.getNombre()+"</td>");
+                                out.println("<td>"+c.getUsuario()+"</td>");
+                                out.println("<td>"+c.getPass()+"</td>");
+                                out.println("<td>"+"<a href='"+request.getContextPath()+"/security?accion=seleccionar&id="+c.getIdcuenta()+"'>Ver</a>"+"</td>");
+                                out.println("</tr>");
+                            }
+                    %>
             </tbody>
         </table>
     </div>
