@@ -42,6 +42,13 @@ public class Cuenta {
     }
 
     public Cuenta() {
+        this.curp = "";
+        this.nombre = "";
+        this.valida = 0;
+        this.cargo =0;
+        this.usuario ="";
+        this.pass = "";
+        this.tipo = 0;
     }
 
     public int getIdcuenta() {

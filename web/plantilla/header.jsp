@@ -1,18 +1,15 @@
 <%@page import="mx.com.dats.modelo.pojos.Cuenta"%>
 <%
     String urlStr = request.getContextPath();
-    System.out.println("Entre1");
     boolean isSession = false;
     Cuenta cuentaUser = new Cuenta();
     if (session.getAttribute("cuentaActual") != null) {
         isSession = true;
         cuentaUser = (Cuenta) session.getAttribute("cuentaActual");
     }
-    System.out.println("Entre2");
     if (!isSession) {
         response.sendRedirect(request.getContextPath());
     }
-    System.out.println("Entre3");
 %>
 <!DOCTYPE html>
 <html lang="en">

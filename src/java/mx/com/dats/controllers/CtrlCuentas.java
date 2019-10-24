@@ -181,15 +181,18 @@ public class CtrlCuentas extends HttpServlet {
         if(req.getParameter("id")!=null){
             try{
                 id=Integer.parseInt(req.getParameter("id"));
-            }catch (Exception e){}
+            }catch (Exception e){
+                System.out.println("Error de conversion id");
+            }
         }
+        System.out.println("Id: "+id);
         CuentasDao daoCuenta= new CuentasDao();
         List<Cuenta> lstAllUsers;
         lstAllUsers=daoCuenta.getTodasCuentas();
         req.setAttribute("lstAllUsers", lstAllUsers);
         Cuenta cnta=daoCuenta.getCuenta(id);
         if(cnta!=null){
-            req.setAttribute("cuentaActual", cnta);
+            req.setAttribute("cuentaSel", cnta);
         }
         String mensaje=daoCuenta.getMensaje();
         req.setAttribute("mensaje", mensaje);

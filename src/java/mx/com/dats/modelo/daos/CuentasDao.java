@@ -92,13 +92,16 @@ public class CuentasDao extends conexion {
     public Cuenta getCuenta(int idCuenta) {
         Cuenta cntaAux = new Cuenta();
         String sql = "SELECT * FROM tbcuentas WHERE idcuenta="+idCuenta+";";
+        System.out.println(sql);
         if (isCorrecto()) {
             try {
                 preStmt = conexion.getCon().prepareStatement(sql);
 
                 System.out.println(sql);
                 rs = preStmt.executeQuery();
+                System.out.println("regs: correcto");
                 while (rs.next()) {
+                    System.out.println("Entro a while");
                     cntaAux.setIdcuenta(rs.getInt("idcuenta"));
                     cntaAux.setCurp(rs.getString("curp"));
                     cntaAux.setNombre(rs.getString("nombre"));
