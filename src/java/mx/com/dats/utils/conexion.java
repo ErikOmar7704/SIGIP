@@ -15,14 +15,25 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Erick Omar G Flores
+ * @author 
  */
 public class conexion {
 
     private static Connection con = null;
+
+    /**
+     *
+     */
     protected static boolean correcto = true;
+
+    /**
+     *
+     */
     protected static String mensaje = "";
 
+    /**
+     *
+     */
     public conexion() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -39,18 +50,34 @@ public class conexion {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public static Connection getCon() {
         return con;
     }
 
+    /**
+     *
+     * @return
+     */
     public static boolean isCorrecto() {
         return correcto;
     }
 
+    /**
+     *
+     * @return
+     */
     public static String getMensaje() {
         return mensaje;
     }
 
+    /**
+     *
+     * @param mensaje
+     */
     public static void setMensaje(String mensaje) {
         conexion.mensaje = mensaje;
     }

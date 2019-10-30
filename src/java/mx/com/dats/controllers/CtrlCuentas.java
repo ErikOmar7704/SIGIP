@@ -19,7 +19,7 @@ import mx.com.dats.modelo.pojos.Cuenta;
 
 /**
  *
- * @author Erick Omar G Flores
+ * 
  */
 @WebServlet(value = "/security")
 public class CtrlCuentas extends HttpServlet {
@@ -125,6 +125,13 @@ public class CtrlCuentas extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    /**
+     *
+     * @param req
+     * @param res
+     * @throws ServletException
+     * @throws IOException
+     */
     public void validaUsuario(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         CuentasDao daoCuenta = new CuentasDao();
         String usuario = "", pass = "";
@@ -160,11 +167,25 @@ public class CtrlCuentas extends HttpServlet {
 
     }
 
+    /**
+     *
+     * @param req
+     * @param res
+     * @throws IOException
+     */
     public void cerrarSession(HttpServletRequest req, HttpServletResponse res) throws IOException {
         req.getSession().removeAttribute("cuentaActual");
         req.getSession().invalidate();
         res.sendRedirect(req.getContextPath());
     }
+
+    /**
+     *
+     * @param req
+     * @param res
+     * @throws ServletException
+     * @throws IOException
+     */
     public void goToAdmin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         
         CuentasDao daoCuenta= new CuentasDao();
@@ -176,6 +197,13 @@ public class CtrlCuentas extends HttpServlet {
         req.getRequestDispatcher("/admsis/index.jsp").forward(req, res);
     }
     
+    /**
+     *
+     * @param req
+     * @param res
+     * @throws ServletException
+     * @throws IOException
+     */
     public void goToCrudUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         int id=0;
         if(req.getParameter("id")!=null){
@@ -199,7 +227,13 @@ public class CtrlCuentas extends HttpServlet {
         req.getRequestDispatcher("/admsis/crudusuarios.jsp").forward(req, res);
     }
     
-    
+    /**
+     *
+     * @param req
+     * @param res
+     * @param mensaje
+     * @throws IOException
+     */
     public void paginaError(HttpServletRequest req, HttpServletResponse res, String mensaje) throws IOException {
         res.sendRedirect(req.getContextPath() + "/error.jsp?mensaje=" + mensaje);
     }

@@ -17,13 +17,18 @@ import static mx.com.dats.utils.conexion.isCorrecto;
 
 /**
  *
- * @author Erick Omar G Flores
+ * @author 
  */
 public class CuentasDao extends conexion {
 
     Statement stmt = null;
     ResultSet rs = null;
     PreparedStatement preStmt=null;
+
+    /**
+     *
+     * @return
+     */
     public List<Cuenta> getTodasCuentas() {
         List<Cuenta> resp = new ArrayList<Cuenta>();
         String sql = "SELECT * FROM tbcuentas;";
@@ -57,6 +62,13 @@ public class CuentasDao extends conexion {
         }
         return resp;
     }
+
+    /**
+     *
+     * @param user
+     * @param pass
+     * @return
+     */
     public Cuenta getCuenta(String user, String pass) {
         Cuenta cntaAux = new Cuenta();
         String sql = "SELECT * FROM tbcuentas WHERE usuario='"+user+"' AND pass= '"+pass+"';";
@@ -89,6 +101,12 @@ public class CuentasDao extends conexion {
         }
         return null;
     }
+
+    /**
+     *
+     * @param idCuenta
+     * @return
+     */
     public Cuenta getCuenta(int idCuenta) {
         Cuenta cntaAux = new Cuenta();
         String sql = "SELECT * FROM tbcuentas WHERE idcuenta="+idCuenta+";";
@@ -124,6 +142,12 @@ public class CuentasDao extends conexion {
         }
         return null;
     }
+
+    /**
+     *
+     * @param cuenta
+     * @return
+     */
     public boolean addCuenta(Cuenta cuenta){
         boolean resp=false;
         String sql = "INSERT INTO tbcuentas(curp,nombre,valida,cargo,usuario,pass,tipo) VALUES("
@@ -148,6 +172,12 @@ public class CuentasDao extends conexion {
         }
         return resp;
     }
+
+    /**
+     *
+     * @param cuenta
+     * @return
+     */
     public boolean updCuenta(Cuenta cuenta){
         boolean resp=false;
         String sql = "UPDATE tbcuentas SET "
@@ -173,6 +203,12 @@ public class CuentasDao extends conexion {
         }
         return resp;
     }
+
+    /**
+     *
+     * @param idcuenta
+     * @return
+     */
     public boolean delCuenta(int idcuenta){
         boolean resp=false;
         String sql = "DELETE FROM tbcuentas  WHERE idcuenta="+idcuenta+";";

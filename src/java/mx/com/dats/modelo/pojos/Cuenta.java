@@ -7,7 +7,7 @@ package mx.com.dats.modelo.pojos;
 
 /**
  *
- * @author Erick Omar G Flores
+ * @author 
  */
 public class Cuenta {
 
@@ -20,6 +20,17 @@ public class Cuenta {
     private String pass;
     private int tipo;
 
+    /**
+     *
+     * @param idcuenta
+     * @param curp
+     * @param nombre
+     * @param valida
+     * @param cargo
+     * @param usuario
+     * @param pass
+     * @param tipo
+     */
     public Cuenta(int idcuenta, String curp, String nombre, int valida, int cargo, String usuario, String pass, int tipo) {
         this.idcuenta = idcuenta;
         this.curp = curp;
@@ -31,6 +42,16 @@ public class Cuenta {
         this.tipo = tipo;
     }
 
+    /**
+     *
+     * @param curp
+     * @param nombre
+     * @param valida
+     * @param cargo
+     * @param usuario
+     * @param pass
+     * @param tipo
+     */
     public Cuenta(String curp, String nombre, int valida, int cargo, String usuario, String pass, int tipo) {
         this.curp = curp;
         this.nombre = nombre;
@@ -41,6 +62,9 @@ public class Cuenta {
         this.tipo = tipo;
     }
 
+    /**
+     *
+     */
     public Cuenta() {
         this.curp = "";
         this.nombre = "";
@@ -51,70 +75,138 @@ public class Cuenta {
         this.tipo = 0;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getIdcuenta() {
         return idcuenta;
     }
 
+    /**
+     *
+     * @param idcuenta
+     */
     public void setIdcuenta(int idcuenta) {
         this.idcuenta = idcuenta;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCurp() {
         return curp;
     }
 
+    /**
+     *
+     * @param curp
+     */
     public void setCurp(String curp) {
         this.curp = curp;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     *
+     * @param nombre
+     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getValida() {
         return valida;
     }
 
+    /**
+     *
+     * @param valida
+     */
     public void setValida(int valida) {
         this.valida = valida;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getCargo() {
         return cargo;
     }
 
+    /**
+     *
+     * @param cargo
+     */
     public void setCargo(int cargo) {
         this.cargo = cargo;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUsuario() {
         return usuario;
     }
 
+    /**
+     *
+     * @param usuario
+     */
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPass() {
         return pass;
     }
 
+    /**
+     *
+     * @param pass
+     */
     public void setPass(String pass) {
         this.pass = pass;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getTipo() {
         return tipo;
     }
 
+    /**
+     *
+     * @param tipo
+     */
     public void setTipo(int tipo) {
         this.tipo = tipo;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getNameTipo() {
         String tipUser;
         switch (this.tipo) {
@@ -138,6 +230,11 @@ public class Cuenta {
         }
         return tipUser;
     }
+
+    /**
+     *
+     * @return
+     */
     public String getNameCargo() {
         String tipUser;
         switch (this.cargo) {
