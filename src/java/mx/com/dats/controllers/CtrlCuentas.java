@@ -7,6 +7,7 @@ package mx.com.dats.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -19,11 +20,13 @@ import mx.com.dats.modelo.pojos.Cuenta;
 
 /**
  *
- * 
+ *
  */
 @WebServlet(value = "/security")
 public class CtrlCuentas extends HttpServlet {
-    String urlB="localhost:8090";
+
+    String urlB = "localhost:8090";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -76,13 +79,16 @@ public class CtrlCuentas extends HttpServlet {
         }
         switch (accion) {
             case "cerrar":
-                cerrarSession(request,response);
+                cerrarSession(request, response);
                 break;
             case "seleccionar":
-                goToCrudUser(request,response);
+                goToCrudUser(request, response);
                 break;
             case "inicio":
-                goToAdmin(request,response);
+                goToAdmin(request, response);
+                break;
+            case "Nueva":
+                response.sendRedirect(request.getContextPath()+"/admsis/crudusuarios.jsp");
                 break;
             default:
                 response.sendRedirect(request.getContextPath() + "/error.jsp");
@@ -101,7 +107,7 @@ public class CtrlCuentas extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        this.urlB=urlB+request.getContextPath();
+        this.urlB = urlB + request.getContextPath();
         String accion = "";
         if (request.getParameter("accion") != null) {
             accion = request.getParameter("accion").toString();
@@ -110,6 +116,10 @@ public class CtrlCuentas extends HttpServlet {
             case "Entrar":
                 validaUsuario(request, response);
                 break;
+            case "Agregar":
+                agregaCuenta(request, response);
+                break;
+            
             default:
                 paginaError(request, response, "Accion no identificada");
         }
@@ -150,13 +160,13 @@ public class CtrlCuentas extends HttpServlet {
                     //res.sendRedirect(req.getContextPath() + "/admsis/" );
                     break;
                 case 2:
-                    res.sendRedirect(req.getContextPath() + "/validapub/" );
+                    res.sendRedirect(req.getContextPath() + "/validapub/");
                     break;
                 case 3:
-                    res.sendRedirect(req.getContextPath() + "/editpubs/" );
+                    res.sendRedirect(req.getContextPath() + "/editpubs/");
                     break;
                 case 4:
-                    res.sendRedirect(req.getContextPath() + "/validapub/" );
+                    res.sendRedirect(req.getContextPath() + "/validapub/");
                     break;
                 default:
                     res.sendRedirect(req.getContextPath());
@@ -187,16 +197,16 @@ public class CtrlCuentas extends HttpServlet {
      * @throws IOException
      */
     public void goToAdmin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        
-        CuentasDao daoCuenta= new CuentasDao();
+
+        CuentasDao daoCuenta = new CuentasDao();
         List<Cuenta> lstAllUsers;
-        lstAllUsers=daoCuenta.getTodasCuentas();
+        lstAllUsers = daoCuenta.getTodasCuentas();
         req.setAttribute("lstAllUsers", lstAllUsers);
-        String mensaje=daoCuenta.getMensaje();
+        String mensaje = daoCuenta.getMensaje();
         req.setAttribute("mensaje", mensaje);
         req.getRequestDispatcher("/admsis/index.jsp").forward(req, res);
     }
-    
+
     /**
      *
      * @param req
@@ -205,28 +215,28 @@ public class CtrlCuentas extends HttpServlet {
      * @throws IOException
      */
     public void goToCrudUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        int id=0;
-        if(req.getParameter("id")!=null){
-            try{
-                id=Integer.parseInt(req.getParameter("id"));
-            }catch (Exception e){
+        int id = 0;
+        if (req.getParameter("id") != null) {
+            try {
+                id = Integer.parseInt(req.getParameter("id"));
+            } catch (Exception e) {
                 System.out.println("Error de conversion id");
             }
         }
-        System.out.println("Id: "+id);
-        CuentasDao daoCuenta= new CuentasDao();
+        System.out.println("Id: " + id);
+        CuentasDao daoCuenta = new CuentasDao();
         List<Cuenta> lstAllUsers;
-        lstAllUsers=daoCuenta.getTodasCuentas();
+        lstAllUsers = daoCuenta.getTodasCuentas();
         req.setAttribute("lstAllUsers", lstAllUsers);
-        Cuenta cnta=daoCuenta.getCuenta(id);
-        if(cnta!=null){
+        Cuenta cnta = daoCuenta.getCuenta(id);
+        if (cnta != null) {
             req.setAttribute("cuentaSel", cnta);
         }
-        String mensaje=daoCuenta.getMensaje();
+        String mensaje = daoCuenta.getMensaje();
         req.setAttribute("mensaje", mensaje);
         req.getRequestDispatcher("/admsis/crudusuarios.jsp").forward(req, res);
     }
-    
+
     /**
      *
      * @param req
@@ -238,4 +248,49 @@ public class CtrlCuentas extends HttpServlet {
         res.sendRedirect(req.getContextPath() + "/error.jsp?mensaje=" + mensaje);
     }
 
+    public void agregaCuenta(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        String curp = "", nombre = "", usuario = "", pass = "", strValida = "-1", strCargo = "-1", strTipo = "-1", mensaje = "";
+        boolean continua = true;
+        Cuenta nvCta = new Cuenta();
+        CuentasDao daoCuenta = new CuentasDao();
+        if (req.getParameter("curp") != null) {
+            curp = req.getParameter("curp");
+        }
+        if (req.getParameter("nombre") != null) {
+            nombre = req.getParameter("nombre");
+        }
+        if (req.getParameter("usuairo") != null) {
+            usuario = req.getParameter("usuario");
+        }
+        if (req.getParameter("pass") != null) {
+            pass = req.getParameter("pass");
+        }
+        if (req.getParameter("valida") != null) {
+            strValida = req.getParameter("valida");
+        }
+        if (req.getParameter("cargo") != null) {
+            strCargo = req.getParameter("cargo");
+        }
+        if (req.getParameter("tipo") != null) {
+            strTipo = req.getParameter("tipo");
+        }
+        try {
+            nvCta = new Cuenta(curp, nombre,
+                    Integer.parseInt(strValida),
+                    Integer.parseInt(strCargo),
+                    usuario, pass,
+                    Integer.parseInt(strTipo));
+        } catch (Exception e) {
+            mensaje += "Error de parametros (agregaCuenta): " + e.getMessage() + "; ";
+            continua = false;
+        }
+        if (continua) {
+            if (daoCuenta.addCuenta(nvCta)) {
+                mensaje += "Regisrto agregado con éxito; ";
+                req.getRequestDispatcher(req.getContextPath() + "/admsis/").forward(req, res);
+            }
+        } else {
+            //En caso de haber errores en los parametros
+        }
+    }
 }

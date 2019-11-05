@@ -5,12 +5,15 @@
     boolean editar=false;
     Cuenta cuentaSel= new  Cuenta();
     Cuenta cuentaAdmin= new Cuenta();
+    String accion="";
     List<Cuenta>lstAllUsers= new ArrayList<Cuenta>();
     if (session.getAttribute("cuentaActual")!=null){
         cuentaAdmin=(Cuenta)session.getAttribute("cuentaActual");
         if(cuentaAdmin.getTipo()!=1)
             response.sendRedirect(request.getContextPath()+"/error.jsp?mensaje=Permisos denegados");
     }
+    if(request.getParameter("accion")!=null)
+        accion=request.getParameter("accion");
     if(request.getAttribute("lstAllUsers")!=null)
         lstAllUsers=(List<Cuenta>)request.getAttribute("lstAllUsers");
     if(request.getAttribute("cuentaSel")!=null)
@@ -22,7 +25,7 @@
                         <form class="form-vertical" id="idFrmAreas" name="frmUsuarios" action="" method="POST">
                             <div class="form-group text-right">
                                 <label for="idRol" >Rol:</label>
-                                <select id="idRol" name="rol" class="form-control-md" style="width: 200px">
+                                <select id="idRol" name="tipo" class="form-control-md" style="width: 200px">
                                     <option value="1" <% if(cuentaSel.getTipo()==1)out.print("Selected"); %>>Administrador</option>
                                     <option value="2" <% if(cuentaSel.getTipo()==2)out.print("Selected"); %>>Val. Vinculación</option>
                                     <option value="3" <% if(cuentaSel.getTipo()==3)out.print("Selected"); %>>Val. Jefe de Área</option>
@@ -32,7 +35,7 @@
                             </div>
                             <div class="form-group text-right">
                                 <label for="idValider" >Validado por:</label>
-                                <select id="idValider" name="valider" class="form-control-md" style="width: 200px">
+                                <select id="idValider" name="valida" class="form-control-md" style="width: 200px">
                                     <option value="0">    Ninguno    </option>
                                     <%
                                      int index=cuentaSel.getValida();
@@ -72,10 +75,10 @@
                             <!--Botonera CRUD-->
                             <hr/>
                             <div class="container text-right">
-                                <input type="submit" id="idAgregar" name="Agregar" value="Agregar" class="btn btn-success"/>
-                                <input type="submit" id="idEditar" name="Editar" value="Editar" class="btn btn-info"/>
-                                <input type="submit" id="idEliminar" name="Borrar" value="Borrar" class="btn btn-danger"/>
-                                <input type="submit" id="idVolver" name="Volver" value="Volver" class="btn btn-light"/>
+                                <input type="submit" id="idAgregar" name="accion" value="Agregar" class="btn btn-success"/>
+                                <input type="submit" id="idEditar" name="accion" value="Editar" class="btn btn-info"/>
+                                <input type="submit" id="idEliminar" name="accion" value="Borrar" class="btn btn-danger"/>
+                                <input type="submit" id="idVolver" name="accion" value="Volver" class="btn btn-light"/>
                             </div>
                         </form>
                     </div>
