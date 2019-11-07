@@ -19,17 +19,17 @@ import javax.swing.table.DefaultTableModel;
  */
 public class conexion {
 
-    private static Connection con = null;
+    private  Connection con = null;
 
     /**
      *
      */
-    protected static boolean correcto = true;
+    protected  boolean correcto = true;
 
     /**
      *
      */
-    protected static String mensaje = "";
+    protected  String mensaje = "";
 
     /**
      *
@@ -54,7 +54,7 @@ public class conexion {
      *
      * @return
      */
-    public static Connection getCon() {
+    public  Connection getCon() {
         return con;
     }
 
@@ -62,7 +62,7 @@ public class conexion {
      *
      * @return
      */
-    public static boolean isCorrecto() {
+    public  boolean isCorrecto() {
         return correcto;
     }
 
@@ -70,7 +70,7 @@ public class conexion {
      *
      * @return
      */
-    public static String getMensaje() {
+    public  String getMensaje() {
         return mensaje;
     }
 
@@ -78,8 +78,8 @@ public class conexion {
      *
      * @param mensaje
      */
-    public static void setMensaje(String mensaje) {
-        conexion.mensaje = mensaje;
+    public void setMensaje(String mensaje) {
+        mensaje = mensaje;
     }
 
 //    public static ResultSet sqlConsulta(String sql) {

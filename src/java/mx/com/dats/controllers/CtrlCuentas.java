@@ -15,8 +15,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import mx.com.dats.modelo.daos.AreaDao;
 import mx.com.dats.modelo.daos.CuentasDao;
 import mx.com.dats.modelo.pojos.Cuenta;
+import mx.com.dats.modelo.pojos.Area;
 
 /**
  *
@@ -60,6 +62,17 @@ public class CtrlCuentas extends HttpServlet {
             out.println("</html>");
         }
     }
+    private void cargaCrudUusarios(HttpServletRequest req, HttpServletResponse res) throws IOException,ServletException{
+        AreaDao daoArea= new AreaDao();
+        CuentasDao daoUsuario= new CuentasDao();
+        List<Cuenta>lstAllUsuarios=daoUsuario.getTodasCuentas();
+        List<Area>lstAllAreas= daoArea.getTodaArea();
+        req.setAttribute("lstAllUsers", lstAllUsuarios);
+        req.setAttribute("lstAllAreas", lstAllAreas);
+        String url="/admsis/crudusuarios.jsp";
+        System.out.println(url);
+        req.getRequestDispatcher(url).forward(req, res);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -87,8 +100,8 @@ public class CtrlCuentas extends HttpServlet {
             case "inicio":
                 goToAdmin(request, response);
                 break;
-            case "Nueva":
-                response.sendRedirect(request.getContextPath()+"/admsis/crudusuarios.jsp");
+            case "nueva":
+                cargaCrudUusarios(request, response);
                 break;
             default:
                 response.sendRedirect(request.getContextPath() + "/error.jsp");
@@ -216,6 +229,7 @@ public class CtrlCuentas extends HttpServlet {
      */
     public void goToCrudUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         int id = 0;
+         String mensaje="";
         if (req.getParameter("id") != null) {
             try {
                 id = Integer.parseInt(req.getParameter("id"));
@@ -225,14 +239,22 @@ public class CtrlCuentas extends HttpServlet {
         }
         System.out.println("Id: " + id);
         CuentasDao daoCuenta = new CuentasDao();
+        AreaDao daoArea = new AreaDao();
         List<Cuenta> lstAllUsers;
+        List<Area> lstAllAreas;
         lstAllUsers = daoCuenta.getTodasCuentas();
+        lstAllAreas = daoArea.getTodaArea();
         req.setAttribute("lstAllUsers", lstAllUsers);
+        req.setAttribute("lstAllAreas", lstAllAreas);
         Cuenta cnta = daoCuenta.getCuenta(id);
         if (cnta != null) {
             req.setAttribute("cuentaSel", cnta);
+        }else{
+            System.out.println("Cuenta no encontrada...");
+            mensaje +="Cuenta no encontrada...";
         }
-        String mensaje = daoCuenta.getMensaje();
+        
+        mensaje = daoCuenta.getMensaje();
         req.setAttribute("mensaje", mensaje);
         req.getRequestDispatcher("/admsis/crudusuarios.jsp").forward(req, res);
     }
@@ -249,7 +271,8 @@ public class CtrlCuentas extends HttpServlet {
     }
 
     public void agregaCuenta(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-        String curp = "", nombre = "", usuario = "", pass = "", strValida = "-1", strCargo = "-1", strTipo = "-1", mensaje = "";
+        String curp = "", nombre = "", usuario = "", pass = "", 
+                strValida = "-1", strCargo = "-1", strTipo = "-1", strIdArea = "-1", mensaje = "";
         boolean continua = true;
         Cuenta nvCta = new Cuenta();
         CuentasDao daoCuenta = new CuentasDao();
@@ -274,12 +297,16 @@ public class CtrlCuentas extends HttpServlet {
         if (req.getParameter("tipo") != null) {
             strTipo = req.getParameter("tipo");
         }
+        if (req.getParameter("idarea") != null) {
+            strIdArea = req.getParameter("idarea");
+        }
         try {
             nvCta = new Cuenta(curp, nombre,
                     Integer.parseInt(strValida),
                     Integer.parseInt(strCargo),
                     usuario, pass,
-                    Integer.parseInt(strTipo));
+                    Integer.parseInt(strTipo),
+                    Integer.parseInt(strIdArea));
         } catch (Exception e) {
             mensaje += "Error de parametros (agregaCuenta): " + e.getMessage() + "; ";
             continua = false;

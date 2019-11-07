@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import mx.com.dats.modelo.pojos.Cuenta;
 import mx.com.dats.utils.conexion;
-import static mx.com.dats.utils.conexion.isCorrecto;
+import mx.com.dats.utils.conexion;
 
 /**
  *
@@ -34,7 +34,7 @@ public class CuentasDao extends conexion {
         String sql = "SELECT * FROM tbcuentas;";
         if (isCorrecto()) {
             try {
-                stmt = conexion.getCon().createStatement();
+                stmt = this.getCon().createStatement();
 
                 rs = stmt.executeQuery(sql);
 
@@ -48,6 +48,7 @@ public class CuentasDao extends conexion {
                     cntaAux.setUsuario(rs.getString("usuario"));
                     cntaAux.setPass(rs.getString("pass"));
                     cntaAux.setTipo(rs.getInt("tipo"));
+                    cntaAux.setIdArea(rs.getInt("idarea"));
                     resp.add(cntaAux);
                 }
                 rs.close();
@@ -74,7 +75,7 @@ public class CuentasDao extends conexion {
         String sql = "SELECT * FROM tbcuentas WHERE usuario='"+user+"' AND pass= '"+pass+"';";
         if (isCorrecto()) {
             try {
-                preStmt = conexion.getCon().prepareStatement(sql);
+                preStmt = this.getCon().prepareStatement(sql);
 
                 System.out.println(sql);
                 rs = preStmt.executeQuery();
@@ -87,6 +88,7 @@ public class CuentasDao extends conexion {
                     cntaAux.setUsuario(rs.getString("usuario"));
                     cntaAux.setPass(rs.getString("pass"));
                     cntaAux.setTipo(rs.getInt("tipo"));
+                    cntaAux.setIdArea(rs.getInt("idarea"));
                 }
                 rs.close();
                 preStmt.close();
@@ -113,7 +115,7 @@ public class CuentasDao extends conexion {
         System.out.println(sql);
         if (isCorrecto()) {
             try {
-                preStmt = conexion.getCon().prepareStatement(sql);
+                preStmt = this.getCon().prepareStatement(sql);
 
                 System.out.println(sql);
                 rs = preStmt.executeQuery();
@@ -128,6 +130,7 @@ public class CuentasDao extends conexion {
                     cntaAux.setUsuario(rs.getString("usuario"));
                     cntaAux.setPass(rs.getString("pass"));
                     cntaAux.setTipo(rs.getInt("tipo"));
+                    cntaAux.setIdArea(rs.getInt("idarea"));
                 }
                 rs.close();
                 preStmt.close();
@@ -138,6 +141,7 @@ public class CuentasDao extends conexion {
             } catch (SQLException e) {
                 correcto = false;
                 mensaje = "SQLException: " + e.getMessage();
+                System.err.println(mensaje);
             }
         }
         return null;
@@ -150,14 +154,15 @@ public class CuentasDao extends conexion {
      */
     public boolean addCuenta(Cuenta cuenta){
         boolean resp=false;
-        String sql = "INSERT INTO tbcuentas(curp,nombre,valida,cargo,usuario,pass,tipo) VALUES("
+        String sql = "INSERT INTO tbcuentas(curp,nombre,valida,cargo,usuario,pass,tipo,idarea) VALUES("
                 +"'"+cuenta.getCurp()+"',"
                 +"'"+cuenta.getNombre()+"',"
                 +""+cuenta.getValida()+","
                 +""+cuenta.getCargo()+","
                 +"'"+cuenta.getUsuario()+"',"
                 +"'"+cuenta.getPass()+"',"
-                +""+cuenta.getTipo()+");";
+                +""+cuenta.getTipo()+","
+                +""+cuenta.getIdArea()+");";
         if (isCorrecto()) {
             try {
                 stmt = this.getCon().createStatement();
@@ -187,7 +192,8 @@ public class CuentasDao extends conexion {
                 +"cargo="+cuenta.getCargo()+","
                 +"usuario='"+cuenta.getUsuario()+"',"
                 +"pass='"+cuenta.getPass()+"',"
-                +"tipo="+cuenta.getTipo()+
+                +"tipo="+cuenta.getTipo()+","
+                +"idarea="+cuenta.getIdArea()+
                 " WHERE idcuenta="+cuenta.getIdcuenta()+";";
         if (isCorrecto()) {
             try {

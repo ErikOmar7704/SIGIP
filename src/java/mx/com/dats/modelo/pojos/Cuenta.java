@@ -19,19 +19,9 @@ public class Cuenta {
     private String usuario;
     private String pass;
     private int tipo;
+    private int idArea;
 
-    /**
-     *
-     * @param idcuenta
-     * @param curp
-     * @param nombre
-     * @param valida
-     * @param cargo
-     * @param usuario
-     * @param pass
-     * @param tipo
-     */
-    public Cuenta(int idcuenta, String curp, String nombre, int valida, int cargo, String usuario, String pass, int tipo) {
+    public Cuenta(int idcuenta, String curp, String nombre, int valida, int cargo, String usuario, String pass, int tipo, int idArea) {
         this.idcuenta = idcuenta;
         this.curp = curp;
         this.nombre = nombre;
@@ -40,19 +30,10 @@ public class Cuenta {
         this.usuario = usuario;
         this.pass = pass;
         this.tipo = tipo;
+        this.idArea = idArea;
     }
 
-    /**
-     *
-     * @param curp
-     * @param nombre
-     * @param valida
-     * @param cargo
-     * @param usuario
-     * @param pass
-     * @param tipo
-     */
-    public Cuenta(String curp, String nombre, int valida, int cargo, String usuario, String pass, int tipo) {
+    public Cuenta(String curp, String nombre, int valida, int cargo, String usuario, String pass, int tipo, int idArea) {
         this.curp = curp;
         this.nombre = nombre;
         this.valida = valida;
@@ -60,7 +41,10 @@ public class Cuenta {
         this.usuario = usuario;
         this.pass = pass;
         this.tipo = tipo;
+        this.idArea = idArea;
     }
+
+
 
     /**
      *
@@ -73,6 +57,7 @@ public class Cuenta {
         this.usuario ="";
         this.pass = "";
         this.tipo = 0;
+        this.idArea=0;
     }
 
     /**
@@ -203,6 +188,14 @@ public class Cuenta {
         this.tipo = tipo;
     }
     
+    public int getIdArea() {
+        return idArea;
+    }
+
+    public void setIdArea(int idArea) {
+        this.idArea = idArea;
+    }
+    
     /**
      *
      * @return
@@ -260,6 +253,7 @@ public class Cuenta {
     public String toString() {
         return "Cuenta{" + "idcuenta=" + idcuenta + ", usuario=" + usuario + ", pass=" + pass + ", tipo=" + tipo + '}';
     }
+
     
 
 }
