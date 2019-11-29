@@ -27,6 +27,7 @@
     if (request.getAttribute("cuentaSel") != null) {
         cuentaSel = (Cuenta) request.getAttribute("cuentaSel");
     }
+    System.out.println("areas: "+ lstAllAreas.size());
 %>
 <div class="col-sm-8">
     <div class="container panel-body mb-4">
@@ -117,13 +118,25 @@
                 <label for="idPass" >Contraseña:</label>
                 <input id="idPass" name="pass" type="password" class="form-control"/>
             </div>
+            <input id="idCuenta" name="idCuenta" type="hidden" value="<%=cuentaSel.getIdcuenta()%>"/>
+            <input id="idPj" name="pj" type="hidden" value="cuenta"/>
             <!--Botonera CRUD-->
             <hr/>
             <div class="container text-right">
-                <input type="submit" id="idAgregar" name="accion" value="Agregar" class="btn btn-success"/>
+                <%
+                    if(accion.equals("nueva")){
+                    %>
+                <input type="submit" id="idAgregar" name="accion" value="Agregar" class="btn btn-info"/>
+                <%
+                    }
+                    if(accion.equals("seleccionar")){
+                    %>
                 <input type="submit" id="idEditar" name="accion" value="Editar" class="btn btn-info"/>
                 <input type="submit" id="idEliminar" name="accion" value="Borrar" class="btn btn-danger"/>
-                <input type="submit" id="idVolver" name="accion" value="Volver" class="btn btn-light"/>
+                <%
+                    }
+                    %>
+                <a id="idVolver" href="<%=request.getContextPath()+"/security?accion=inicio"%>" class="btn btn-light">Volver</a>
             </div>
         </form>
     </div>

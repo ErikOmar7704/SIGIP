@@ -10,10 +10,10 @@ package mx.com.dats.modelo.pojos;
  * @author GUFE
  */
 public class Area {
-    private int id;
-    private String nombre;
-    private String nombreCorto;
-    private int superior;
+    private int id=-1;
+    private String nombre="";
+    private String nombreCorto="";
+    private int superior=-1;
 
     public Area(int id, String nombre, String nombreCorto, int superior) {
         this.id = id;

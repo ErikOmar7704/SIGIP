@@ -1,5 +1,6 @@
 <%@page import="mx.com.dats.modelo.pojos.Cuenta"%>
 <%
+    System.out.println("Entre a Index");
     String urlStr = request.getContextPath();
     boolean isSession = false;
     Cuenta cuentaUser = new Cuenta();
