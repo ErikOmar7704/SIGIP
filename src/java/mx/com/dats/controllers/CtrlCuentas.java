@@ -17,8 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mx.com.dats.modelo.daos.AreaDao;
 import mx.com.dats.modelo.daos.CuentasDao;
+import mx.com.dats.modelo.daos.MedioPublicacionDao;
 import mx.com.dats.modelo.pojos.Cuenta;
 import mx.com.dats.modelo.pojos.Area;
+import mx.com.dats.modelo.pojos.MedioPublicacion;
 
 /**
  *
@@ -101,13 +103,15 @@ public class CtrlCuentas extends HttpServlet {
             case "seleccionar":
                 if(pj.equals("cuenta"))goToCrudUser(request, response);
                 if(pj.equals("area"))goToCrudArea(request, response);
+                if(pj.equals("medio"))goToCrudMedio(request, response);
                 break;
             case "inicio":
-                goToAdmin(request, response);
+                goToInicio(request, response);
                 break;
             case "nueva":
                 if(pj.equals("cuenta"))cargaCrudUsuarios(request, response);
                 if(pj.equals("area"))cargaCrudAreas(request, response);
+                if(pj.equals("medio"))cargaCrudMedios(request, response);
                 break;
             default:
                 response.sendRedirect(request.getContextPath() + "/error.jsp");
@@ -143,14 +147,17 @@ public class CtrlCuentas extends HttpServlet {
             case "Agregar":
                 if(pj.equals("cuenta"))agregaCuenta(request, response);
                 if(pj.equals("area"))agregaArea(request, response);
+                if(pj.equals("medio"))agregaMedio(request, response);
                 break;
             case "Editar":
                 if(pj.equals("cuenta"))editarCuenta(request, response);
                 if(pj.equals("area"))editarArea(request, response);
+                if(pj.equals("medio"))editarMedio(request, response);
                 break;
             case "Borrar":
                 if(pj.equals("cuenta"))borrarCuenta(request, response);
                 if(pj.equals("area"))borrarArea(request, response);
+                if(pj.equals("medio"))borrarMedio(request, response);
                 break;
 
             default:
@@ -160,6 +167,29 @@ public class CtrlCuentas extends HttpServlet {
     // </editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Metodos de navegacion">
+    
+    public void goToInicio(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        Cuenta cuenta= new Cuenta();
+        if(req.getSession().getAttribute("cuentaActual")!=null)
+            cuenta=(Cuenta)req.getSession().getAttribute("cuentaActual");
+        switch (cuenta.getTipo()) {
+                case 1:
+                    goToAdmin(req, res);
+                    //res.sendRedirect(req.getContextPath() + "/admsis/" );
+                    break;
+                case 2:
+                    res.sendRedirect(req.getContextPath() + "/validapub/");
+                    break;
+                case 3:
+                    res.sendRedirect(req.getContextPath() + "/editpubs/");
+                    break;
+                case 4:
+                    res.sendRedirect(req.getContextPath() + "/validapub/");
+                    break;
+                default:
+                    res.sendRedirect(req.getContextPath());
+            }
+    }
      /**
      *
      * @param req
@@ -171,14 +201,19 @@ public class CtrlCuentas extends HttpServlet {
 
         CuentasDao daoCuenta = new CuentasDao();
         AreaDao daoArea = new AreaDao();
+        MedioPublicacionDao daoMedios = new MedioPublicacionDao();
         List<Cuenta> lstAllUsers;
         List<Area> lstAllAreas;
+        List<MedioPublicacion> lstAllMedios;
         lstAllUsers = daoCuenta.getTodasCuentas();
         lstAllAreas = daoArea.getTodaArea();
+        lstAllMedios = daoMedios.getTodoMedio();
         req.setAttribute("lstAllUsers", lstAllUsers);
         req.setAttribute("lstAllAreas", lstAllAreas);
+        req.setAttribute("lstAllMedios", lstAllMedios);
         String mensaje = daoCuenta.getMensaje();
         mensaje +="; " + daoArea.getMensaje();
+        mensaje +="; " + daoMedios.getMensaje();
         req.setAttribute("mensajeDao", mensaje);
         req.getRequestDispatcher("/admsis/index.jsp").forward(req, res);
     }
@@ -267,6 +302,43 @@ public class CtrlCuentas extends HttpServlet {
         System.out.println(url);
         req.getRequestDispatcher(url).forward(req, res);
     }
+    
+    public void goToCrudMedio(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        int id = 0;
+        String mensaje = "";
+        if (req.getParameter("id") != null) {
+            try {
+                id = Integer.parseInt(req.getParameter("id"));
+            } catch (Exception e) {
+                System.out.println("Error de conversion id");
+            }
+        }
+        MedioPublicacionDao daoMedios = new MedioPublicacionDao();
+        CuentasDao daoCuentasa = new CuentasDao();
+        List<Cuenta> lstAllUsuarios;
+        lstAllUsuarios = daoCuentasa.getTodasCuentas();
+        req.setAttribute("lstAllUsuarios", lstAllUsuarios);
+        MedioPublicacion medio = daoMedios.getMedio(id);
+        if (medio != null) {
+            req.setAttribute("medioSel", medio);
+        } else {
+            System.out.println("Medio no encontrada...");
+            mensaje += "Medio no encontrado...";
+        }
+
+        mensaje = daoCuentasa.getMensaje();
+        mensaje = mensaje + "; "+ daoMedios.getMensaje();
+        req.setAttribute("mensaje", mensaje);
+        req.getRequestDispatcher("/admsis/crudmedios.jsp").forward(req, res);
+    }
+    private void cargaCrudMedios(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        CuentasDao daoUsers = new CuentasDao();
+        List<Cuenta> lstAllUsuarios = daoUsers.getTodasCuentas();
+        req.setAttribute("lstAllUsuarios", lstAllUsuarios);
+        String url = "/admsis/crudmedios.jsp";
+        System.out.println(url);
+        req.getRequestDispatcher(url).forward(req, res);
+    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Metodos de administracion de usuarios y seguridad">
@@ -291,23 +363,8 @@ public class CtrlCuentas extends HttpServlet {
         Cuenta cuenta = daoCuenta.getCuenta(usuario, pass);
         if (cuenta != null) {
             req.getSession().setAttribute("cuentaActual", cuenta);
-            switch (cuenta.getTipo()) {
-                case 1:
-                    goToAdmin(req, res);
-                    //res.sendRedirect(req.getContextPath() + "/admsis/" );
-                    break;
-                case 2:
-                    res.sendRedirect(req.getContextPath() + "/validapub/");
-                    break;
-                case 3:
-                    res.sendRedirect(req.getContextPath() + "/editpubs/");
-                    break;
-                case 4:
-                    res.sendRedirect(req.getContextPath() + "/validapub/");
-                    break;
-                default:
-                    res.sendRedirect(req.getContextPath());
-            }
+            this.goToInicio(req, res);
+            
         } else {
             paginaError(req, res, "Credenciales incorrectas, verifique sus datos");
         }
@@ -586,12 +643,136 @@ public class CtrlCuentas extends HttpServlet {
             id = Integer.parseInt(strId);
 
         } catch (Exception e) {
-            mensaje += "Error de parametros (editarCuenta): " + e.getMessage() + "; ";
+            mensaje += "Error de parametros (borrarArea): " + e.getMessage() + "; ";
             continua = false;
         }
         if (continua) {
             daoArea.delArea(id);
             if (daoArea.isCorrecto()) {
+                mensaje += "Regisrto eliminado con éxito; ";
+                //req.getRequestDispatcher(req.getContextPath() + "/admsis/").forward(req, res);
+
+            } else {
+                mensaje += "Lo sentimos el regisrto no fue eliminado; ";
+
+            }
+        } else {
+            //En caso de haber errores en los parametros
+        }
+        req.setAttribute("mensaje", mensaje);
+        goToAdmin(req, res);
+    }
+    
+    //</editor-fold>
+        
+    //<editor-fold defaultstate="collapsed" desc="Metodos de administracion de medios">
+
+    public void agregaMedio(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        String nombre = "",direccion="", cuenta="", pass="", strEditor= "-1", mensaje = "";
+        boolean continua = true;
+        MedioPublicacion nvMedio = new MedioPublicacion();
+        MedioPublicacionDao daoMedios = new MedioPublicacionDao();
+        if (req.getParameter("nombre") != null) {
+            nombre = req.getParameter("nombre");
+        }
+        if (req.getParameter("direccion") != null) {
+            direccion = req.getParameter("direccion");
+        }
+        if (req.getParameter("cuenta") != null) {
+            cuenta = req.getParameter("cuenta");
+        }
+        if (req.getParameter("pass") != null) {
+            pass = req.getParameter("pass");
+        }
+        if (req.getParameter("editor") != null) {
+            strEditor = req.getParameter("editor");
+        }
+        try {
+            nvMedio = new MedioPublicacion(nombre,cuenta,pass,direccion,Integer.parseInt(strEditor));
+        } catch (Exception e) {
+            mensaje += "Error de parametros (agregaArea): " + e.getMessage() + "; ";
+            continua = false;
+        }
+        if (continua) {
+            daoMedios.addMedio(nvMedio);
+            if (daoMedios.isCorrecto()) {
+                mensaje += "Regisrto agregado con éxito; ";
+            } else {
+                mensaje += "Lo sentimos el regisrto no fue agregado; ";
+            }
+        } else {
+            //En caso de haber errores en los parametros
+        }
+        req.setAttribute("mensaje", mensaje);
+        goToAdmin(req, res);
+    }
+
+    public void editarMedio(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        String nombre = "",direccion="", cuenta="", pass="", strEditor= "-1",strId= "-1", mensaje = "";
+        boolean continua = true;
+        MedioPublicacion nvMedio = new MedioPublicacion();
+        MedioPublicacionDao daoMedios = new MedioPublicacionDao();
+        if (req.getParameter("nombre") != null) {
+            nombre = req.getParameter("nombre");
+        }
+        if (req.getParameter("direccion") != null) {
+            direccion = req.getParameter("direccion");
+        }
+        if (req.getParameter("cuenta") != null) {
+            cuenta = req.getParameter("cuenta");
+        }
+        if (req.getParameter("pass") != null) {
+            pass = req.getParameter("pass");
+        }
+        if (req.getParameter("editor") != null) {
+            strEditor = req.getParameter("editor");
+        }
+        if (req.getParameter("idMedio") != null) {
+            strId = req.getParameter("idMedio");
+        }
+        try {
+            nvMedio = new MedioPublicacion(
+                    Integer.parseInt(strId),
+                    nombre, cuenta,pass,direccion,
+                    Integer.parseInt(strEditor));
+        } catch (Exception e) {
+            mensaje += "Error de parametros (editarMedio): " + e.getMessage() + "; ";
+            continua = false;
+        }
+        if (continua) {
+            daoMedios.updMedio(nvMedio);
+            if (daoMedios.isCorrecto()) {
+                mensaje += "Regisrto editado con éxito; ";
+            } else {
+                mensaje += "Lo sentimos el regisrto no fue editado; ";
+            }
+        } else {
+            //En caso de haber errores en los parametros
+        }
+        req.setAttribute("mensaje", mensaje);
+        goToAdmin(req, res);
+    }
+
+    public void borrarMedio(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        String mensaje = "", strId = "-1";
+        int id = -1;
+        boolean continua = true;
+        MedioPublicacionDao daoMedio = new MedioPublicacionDao();
+        if (req.getParameter("idMedio") != null) {
+            strId = req.getParameter("idMedio");
+        }
+
+        try {
+
+            id = Integer.parseInt(strId);
+
+        } catch (Exception e) {
+            mensaje += "Error de parametros (borrarMedio): " + e.getMessage() + "; ";
+            continua = false;
+        }
+        if (continua) {
+            daoMedio.delMedio(id);
+            if (daoMedio.isCorrecto()) {
                 mensaje += "Regisrto eliminado con éxito; ";
                 //req.getRequestDispatcher(req.getContextPath() + "/admsis/").forward(req, res);
 

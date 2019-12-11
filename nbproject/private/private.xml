@@ -6,9 +6,12 @@
             <file>file:/C:/Users/lenovo/Documents/ITSVC/SIGIP/src/java/mx/com/dats/controllers/CtrlCuentas.java</file>
             <file>file:/C:/Users/lenovo/Documents/ITSVC/SIGIP/src/java/mx/com/dats/utils/conexion.java</file>
             <file>file:/C:/Users/lenovo/Documents/ITSVC/SIGIP/src/java/mx/com/dats/modelo/daos/CuentasDao.java</file>
+            <file>file:/C:/Users/lenovo/Documents/ITSVC/SIGIP/web/admsis/crudareas.jsp</file>
             <file>file:/C:/Users/lenovo/Documents/ITSVC/SIGIP/web/admsis/index.jsp</file>
+            <file>file:/C:/Users/lenovo/Documents/ITSVC/SIGIP/web/plantilla/header.jsp</file>
             <file>file:/C:/Users/lenovo/Documents/ITSVC/SIGIP/web/admsis/crudusuarios.jsp</file>
             <file>file:/C:/Users/lenovo/Documents/ITSVC/SIGIP/src/java/mx/com/dats/modelo/pojos/Cuenta.java</file>
+            <file>file:/C:/Users/lenovo/Documents/ITSVC/SIGIP/src/java/mx/com/dats/modelo/daos/AreaDao.java</file>
         </group>
     </open-files>
 </project-private>

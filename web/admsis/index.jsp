@@ -1,3 +1,4 @@
+<%@page import="mx.com.dats.modelo.pojos.MedioPublicacion"%>
 <%@page import="mx.com.dats.modelo.pojos.Area"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -13,6 +14,10 @@
     List<Area> lstAllAreas= new ArrayList<Area>();
     if(request.getAttribute("lstAllAreas")!=null){
         lstAllAreas=(List<Area>)request.getAttribute("lstAllAreas");
+    }
+    List<MedioPublicacion> lstAllMedios= new ArrayList<MedioPublicacion>();
+    if(request.getAttribute("lstAllMedios")!=null){
+        lstAllMedios=(List<MedioPublicacion>)request.getAttribute("lstAllMedios");
     }
 %>
 <div class="col-sm-8">
@@ -85,21 +90,28 @@
     <div id="dvTbMedios" class="collapse">
         <table id="tbMedios" class="table">
             <thead>
-                <tr><th>Col_1</th><th>Col_2</th><th>Col_3</th><th>Col_4</th><th>Col_5</th></tr>
+                <tr><th>Num.</th><th>Medio</th><th>Cuenta</th><th>Dirección</th><th>Acciones</th></tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>dato_1</td>
-                    <td>dato_2</td>
-                    <td>dato_3</td>
-                    <td>dato_4</td>
-                    <td>dato_5</td>
+                    <%
+                        if(lstAllMedios!=null)
+                            for(MedioPublicacion m : lstAllMedios){
+                                out.println("<tr>");
+                                out.println("<td>"+m.getIdMedio()+"</td>");
+                                out.println("<td>"+m.getNombre()+"</td>");
+                                out.println("<td>"+m.getCuenta()+"</td>");
+                                out.println("<td class='small' style='white-space:pre'>"+m.getDireccion()+"</td>");
+                                out.println("<td>"+"<a href='"+request.getContextPath()+"/security?accion=seleccionar&pj=medio&id="+m.getIdMedio()+"'>Ver</a>"+"</td>");
+                                out.println("</tr>");
+                            }
+                    %>
                 </tr>
             </tbody>
         </table>
     </div>
     <p>Información de Medios</p>
-    <h5 class="text-right"><a href="#" class="btn btn-light" >Agregar</a></h5>
+    <h5 class="text-right"><a href="<%=request.getContextPath()+"/security?accion=nueva&pj=medio"%>" class="btn btn-light" >Agregar</a></h5>
     <hr/>
     <br>
 </div>

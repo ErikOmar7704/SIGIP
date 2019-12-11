@@ -5,11 +5,13 @@
  */
 package mx.com.dats.modelo.pojos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author GUFE
  */
-public class Area {
+public class Area implements Serializable {
     private int id=-1;
     private String nombre="";
     private String nombreCorto="";

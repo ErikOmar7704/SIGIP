@@ -5,11 +5,13 @@
  */
 package mx.com.dats.modelo.pojos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author 
  */
-public class Cuenta {
+public class Cuenta implements Serializable{
 
     private int idcuenta;
     private String curp;
